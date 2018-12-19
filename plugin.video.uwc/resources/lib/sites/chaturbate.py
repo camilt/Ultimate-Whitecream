@@ -128,11 +128,12 @@ def List(url, page=1):
     except:
         
         return None
-    match = re.compile(r'<li>\s+<a href="([^"]+)".*?src="([^"]+)".*?<div[^>]+>([^<]+)</div>.*?href[^>]+>([^<]+)<.*?age[^>]+>([^<]+)<', re.DOTALL | re.IGNORECASE).findall(listhtml)
-    for videopage, img, status, name, age in match:
+    #match = re.compile(r'<li>\s+<a href="([^"]+)".*?src="([^"]+)".*?<div[^>]+>([^<]+)</div>.*?href[^>]+>([^<]+)<.*?age[^>]+>([^<]+)<', re.DOTALL | re.IGNORECASE).findall(listhtml)
+    match = re.compile(r'<li class="room_list_room" data-sl="([^"]+)".*?<a href="([^"]+)".*?<img src="([^"]+)".*?<.*?age[^>]+>([^<]+)<', re.DOTALL | re.IGNORECASE).findall(listhtml)
+    for name, videopage, img, age in match: #, status
         name = utils.cleantext(name.strip())
-        status = status.replace("\n","").strip()
-        name = name + " [COLOR deeppink][" + age + "][/COLOR] " + status
+        #status = status.replace("\n","").strip()
+        name = name + " [COLOR deeppink][" + age + "][/COLOR] " #+ status
         videopage = "https://chaturbate.com" + videopage
         utils.addDownLink(name, videopage, 222, img, '', noDownload=True)
     try:
